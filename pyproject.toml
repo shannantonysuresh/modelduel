@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "modelduel"
+version = "0.1.0"
+description = "Is model A really better than model B, or is it cross-validation noise? One-line corrected significance test for scikit-learn models."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.9"
+dependencies = ["numpy", "scipy", "scikit-learn"]
+keywords = ["machine-learning", "scikit-learn", "model-comparison", "statistics", "cross-validation", "t-test"]
+
+[project.optional-dependencies]
+test = ["pytest"]
+experiments = ["pandas", "matplotlib"]
+
+[tool.setuptools]
+packages = ["modelduel"]

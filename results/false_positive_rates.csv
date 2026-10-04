@@ -1,0 +1,7 @@
+dataset,test,false_positive_rate,ci_low,ci_high
+breast_cancer (n=341),naive paired t-test,0.3,0.24074644243406387,0.3667919599332645
+breast_cancer (n=341),corrected (modelduel),0.0,0.0,0.01884600591832089
+wine (n=106),naive paired t-test,0.47,0.40204633370871073,0.5390844266463884
+wine (n=106),corrected (modelduel),0.02,0.007804300176394188,0.050287865505193874
+digits (n=1078),naive paired t-test,0.305,0.2453631435266905,0.3719867987814546
+digits (n=1078),corrected (modelduel),0.0,0.0,0.01884600591832089
