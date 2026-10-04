@@ -27,7 +27,7 @@ class DuelResult:
 
     @property
     def significant(self):
-        return self.p_value < self.alpha
+        return bool(self.p_value < self.alpha)  # NaN (can't assess) -> False
 
     @property
     def winner(self):
@@ -37,6 +37,9 @@ class DuelResult:
         head = (f"A: {self.mean_a:.4f}   B: {self.mean_b:.4f}   ({self.scoring}, {self.n_folds} folds)\n"
                 f"A - B = {self.diff:+.4f}  ({1 - self.alpha:.0%} CI {self.ci_low:+.4f} to {self.ci_high:+.4f}),"
                 f"  corrected p = {self.p_value:.3g}\n")
+        if np.isnan(self.p_value):
+            return head + ("-> Can't assess: A - B was identical on every fold, so the noise can't be estimated. "
+                           "Usually a fixed-seed or degenerate model; this is not evidence either way.")
         if self.winner:
             return head + f"-> {self.winner} is better (significant at {self.alpha})."
         verdict = "-> No significant difference: this gap is within cross-validation noise."
@@ -52,8 +55,8 @@ def corrected_ttest(diffs, n_train, n_test, alpha=0.05):
     d = np.asarray(diffs, float)
     k = len(d)
     mean, var = d.mean(), d.var(ddof=1)
-    if var == 0:  # identical on every fold
-        p = 1.0 if mean == 0 else 0.0
+    if var <= 1e-12 * max(1.0, mean * mean):  # same difference on every fold (allowing float rounding)
+        p = 1.0 if np.isclose(mean, 0) else np.nan  # nonzero but no spread: noise can't be estimated
         return p, mean, mean, p
     se = np.sqrt((1 / k + n_test / n_train) * var)
     naive_se = np.sqrt(var / k)

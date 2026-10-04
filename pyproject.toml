@@ -1,10 +1,10 @@
-[build-system]
+﻿[build-system]
 requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "modelduel"
-version = "0.1.0"
+version = "0.1.1"
 description = "Is model A really better than model B, or is it cross-validation noise? One-line corrected significance test for scikit-learn models."
 readme = "README.md"
 license = "MIT"
